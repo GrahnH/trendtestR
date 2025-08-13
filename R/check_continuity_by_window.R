@@ -66,10 +66,10 @@ check_continuity_by_window <- function(
   data_max <- max(date_vec, na.rm = TRUE)
   min_year <- min(years)
   max_year <- max(years)
-  min_month <- min(months)
-  max_month <- max(months)
+  start_month <- head(months,1)
+  max_month <- tail(months,1)
 
-  ym_start_user <- as.Date(sprintf("%04d-%02d-01", min_year, min_month))
+  ym_start_user <- as.Date(sprintf("%04d-%02d-01", min_year, start_month))
   ym_end_user <- lubridate::ceiling_date(
     as.Date(sprintf("%04d-%02d-01", max_year, max_month)),
     unit = "month"
