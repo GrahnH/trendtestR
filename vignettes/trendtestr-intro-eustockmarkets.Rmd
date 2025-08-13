@@ -1,0 +1,369 @@
+---
+title: "trendtestr-intro-eustockmarkets"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{trendtestr-intro-eustockmarkets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+This vignette walks through a **recommended automated workflow** in **`trendtestR`** using the built-in **`EuStockMarkets`** dataset.  
+Rather than demonstrating every function, it focuses on a **small, practical subset** that covers most day-to-day use cases with minimal manual tuning.  
+
+## What you’ll do (automated path)
+
+1. **Prepare & reshape data** (wide → long for grouped analysis)  
+
+2. **Verify time-window continuity** to ensure valid comparisons  
+
+3. **Compare cross-year periods** at two granularities (weekly vs daily) 
+
+4. **Run auto-selected group tests** via `run_group_test()` with assumptions and effect sizes  
+
+5. **Fit trends with one call** via `explore_trend_auto()` (automatic model family & smoothing)  
+
+6. **(Optional) ARIMA readiness check** to decide if time-series modeling is warranted
+
+## Selected functions used
+
+- `filter_by_groupcol()` — subset/structure data by groups and date column  
+- `check_continuity_by_window()` — confirm continuous windows across years/months 
+- `compare_monthly_cases()` — cross-year comparison with chosen granularity & aggregation  
+- `compare_distribution_by_granularity()` — sanity-check distributional changes (day vs week)  
+- `run_group_tests()` — automated test selection + assumptions + effect sizes  
+- `explore_trend_auto()` — automatic trend modeling (Gaussian/Gamma, splines)  
+- `check_rate_diff_arima_ready()` *(optional)* — stationarity, seasonality & differencing hints
+
+## Dataset
+
+**`EuStockMarkets`** contains daily closing prices for four European stock indices (**DAX**, **SMI**, **CAC**, **FTSE**) from 1991-01-01 to 1996-02-03.  
+For clarity and speed, this vignette focuses on **DAX** and **CAC** and a **two-year cross-year window**.
+
+
+# Workflow
+
+## 1. Installation and Setup
+
+This section loads the necessary packages and prepares the built-in dataset **`EuStockMarkets`** for analysis.
+
+We will:
+- Convert the built-in time-series object to a **data.frame** with an explicit **date** column.
+- Reshape it from **wide format** (one column per market) to **long format** (one column for market names, one for index values), which is easier to group, filter, and visualize in **`trendtestR`** workflows.
+
+## 1.1 Load required packages
+```r
+library(trendtestR)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+```
+## 1.2 Data Preparation
+
+The built-in dataset contains daily closing prices of four European stock market indices:
+DAX (Germany), SMI (Switzerland), CAC (France), and FTSE (UK), covering the period 1991-01-01 to 1996-02-03.
+
+```r
+# Load the built-in dataset
+
+data("EuStockMarkets")
+
+# Create a dataframe with a date column and the stock indices
+
+eu_df <- data.frame(
+  date = seq(as.Date("1991-01-01"), by = "day", length.out = nrow(EuStockMarkets)),
+  as.data.frame(EuStockMarkets)
+)
+
+# Preview the last few rows
+tail(eu_df)
+
+# Reshape the dataset to long format for easier grouping and filterin
+eu_long <- eu_df %>%
+  pivot_longer(
+    cols = c(DAX, SMI, CAC, FTSE),
+    names_to = "market",
+    values_to = "index"
+  ) %>%
+  mutate(market = factor(market))
+
+# Preview the first few rows
+head(eu_long)
+```
+
+## 2.  Data Filtering
+
+We keep only **DAX** (Germany) and **CAC** (France) for a smaller, faster analysis.  
+**`filter_by_groupcol()`** lets us select specific groups while keeping the data in long format.
+
+```r
+# 
+ecoDaxCac <- filter_by_groupcol(
+  eu_long,
+  group_col = "market",    # grouping variable
+  value_col = "index",     # values to analyze
+  datum_col = "date",      # date variable
+  keep_levels = c("DAX", "CAC"),
+  to_wide = FALSE,         
+  keep_other_cols = TRUE   
+)
+
+# Preview the first few rows
+head(ecoDaxCac)
+```
+## 3. Data Continuity Check
+
+We use **`check_continuity_by_window()`** to verify there are no date gaps in the selected period, ensuring data quality before running further functions.
+
+```r
+checkconti <- check_continuity_by_window(
+  date_vec = ecoDaxCac$date,
+  years = c(1991, 1993),
+  months = c(10, 9), 
+  window_unit = "day", 
+  use_isoweek = TRUE, 
+  allow_leading_gap = TRUE
+)
+
+# Display continuity results
+cat("Data is continuous:", checkconti$continuous, "\n")
+cat("Data range:", as.character(checkconti$range), "\n")
+# Output: Data is continuous: TRUE 
+# Output: Data range: 1991-10-01 1993-09-30
+
+```
+
+## 4. Cross-Year Data Comparison
+
+We use **`compare_monthly_cases()`** to compare values between years over a cross-year period, allowing flexible month selection and time aggregation.
+
+## 4.1 Weekly Granularity Comparison
+We first compare 1992–1993 data aggregated weekly:
+
+```r
+# Compare 1992-1993 data with weekly granularity
+reseuro <- compare_monthly_cases(
+  ecoDaxCac, 
+  datum_col = "date", 
+  value_col = "index", 
+  group_col = "market",
+  years = c(1992, 1993),
+  months = c(10:12, 1:9), # Oct–Dec + Jan–Sep (cross-year)
+  granularity = "week",    
+  agg_fun = "mean",
+  shift_month = "mth_to_next" #alternative param: mth_to_prev, none 
+)
+
+# Note: Function automatically excludes groups with no data (1991, 1995)
+# Shows standardization info and data characteristics
+```
+
+## 4.2 Daily Granularity Comparison
+We repeat the analysis at daily granularity to compare results:
+
+```r
+# Compare same period with daily granularity
+reseurod <- compare_monthly_cases(
+  ecoDaxCac, 
+  datum_col = "date", 
+  value_col = "index", 
+  group_col = "market",
+  years = c(1992, 1993),
+  months = c(10:12, 1:9),
+  granularity = "day",    
+  agg_fun = "median",
+  shift_month = "mth_to_next"
+)
+
+# View statistical test results
+print(reseuro$tests)
+# Results show Kruskal-Wallis test with large effect size (eta² ≈ 0.31)
+# Includes assumption checks and post-hoc Dunn tests
+```
+
+## 4.3 Distribution Comparison Across Granularities
+We then compare distributions between granularities to guide aggregation choice:
+
+```r
+# Compare distributions using Q-Q plots
+compare_distribution_by_granularity(reseuro, reseurod)
+
+
+#Shows normality tests and variance tests for different granularities
+#Helps determine optimal time aggregation level
+```
+This helps determine the most suitable time aggregation level for subsequent statistical analyses.
+
+## 5. Automated Statistical Testing
+
+We use **`run_group_tests()`** to automatically select and perform the most appropriate statistical test based on data characteristics, including assumption checks and effect size calculation.
+
+```r
+# Run automated group comparison tests
+test_results <- run_group_tests(
+  reseuro$data, 
+  value_col = "index", 
+  group_col = "market",
+  effect_size = TRUE,
+  report_assumptions = TRUE
+)
+
+print(test_results)
+# Function automatically excludes groups with no data (FTSE, SMI)
+# Recommends Mann-Whitney U-Test due to violated normality assumptions
+```
+
+## 6. Trend Modeling
+
+We start with **automatic model selection** using **`explore_trend_auto()`**, which evaluates multiple candidate families (e.g., Gaussian, Gamma, Poisson, ZINB) and chooses the most suitable one based on AIC and model diagnostics.
+
+This step provides a quick, data-driven baseline model before fine-tuning parameters such as spline degrees of freedom in the next section.
+
+## 6.1 Automated Trend Exploration
+```r
+# Automatically select the most appropriate trend model
+trend_auto <- explore_trend_auto(
+  reseuro$data, 
+  datum_col = "date", 
+  value_col = ".value", 
+  group_col = "market",
+  family = "auto", 
+  kdf = 5
+)
+
+print(trend_auto$summary)
+# Function compares Gaussian vs Gamma GLM and selects optimal model
+# Shows AIC comparison and model selection rationale
+```
+## 6.2 Spline Degrees of Freedom Optimization
+While **`explore_trend_auto()`** already selects a reasonable default, users may wish to **manually fine-tune model complexity** for deeper exploration.  
+
+Here we illustrate one such approach: selecting spline degrees of freedom based on the **largest AIC drop** compared to the previous candidate, rather than simply picking the absolute AIC minimum.  
+This captures the point of **maximum improvement before diminishing returns**.  
+
+> This is just **one possible workflow** — any of the `explore_*_trend()` functions can be used interactively to test different model families, spline settings, or grouping structures for more tailored analysis.
+
+
+```r
+# Create AIC comparison dataframe
+aic_df <- data.frame(
+  df_spline = integer(),
+  AIC = numeric()
+)
+
+# Loop through different degrees of freedom
+for (df in 4:7) {
+  tmp <- explore_continuous_trend(
+    reseuro$data, 
+    datum_col = "date", 
+    value_col = ".value", 
+    group_col = "market",
+    family = "gaussian",  
+    df_spline = df
+  )
+  aic_df <- rbind(aic_df, data.frame(df_spline = df, AIC = AIC(tmp$model)))
+}
+
+# Find optimal degrees of freedom
+aic_drop <- diff(aic_df$AIC)
+optimal_df <- aic_df$df_spline[which.max(-aic_drop)] + 1 # largest negative drop
+cat("optimal spline degrees of freedom:", optimal_df, "\n")
+
+```
+
+## 6.3 Modeling with Optimal Parameters
+We refit the trend model using the  **optimal spline degrees of freedom** found above, ensuring the model complexity is justified by the largest improvement in fit.
+
+```r
+euexp <- explore_continuous_trend(
+  reseuro$data, 
+  datum_col = "date", 
+  value_col = ".value", 
+  group_col = "market",
+  family = "gaussian", 
+  df_spline = optimal_df  # Use df=5 for optimal fit
+)
+
+# View model summary
+summary(euexp$model)
+
+```
+
+## 7. Model Diagnostics
+After fitting the trend model, we run **`diagnose_model_trend()`** to check whether model assumptions are met.
+This step validates residual behavior, tests for normality and variance homogeneity, and helps decide if further model adjustments are necessary.
+
+```r
+# Perform model diagnostics
+diagnosis <- diagnose_model_trend(euexp$model)
+# Provides residual plots, normality tests, and homogeneity checks
+# Includes Kolmogorov-Smirnov, Shapiro-Wilk, and Levene tests
+```
+
+## 8. ARIMA Modeling Preparation
+
+Before applying ARIMA, we run **`check_rate_diff_arima_ready()`** to assess if the data meets key time-series assumptions.
+This step checks for outliers, trend and seasonality patterns, and suggests whether differencing is required, ensuring a more stable ARIMA fit.
+
+```r
+# Pre-ARIMA modeling checks
+arima_check <- check_rate_diff_arima_ready(
+  rate_diff_vec = eu_df$DAX,
+  date_vec = eu_df$date,
+  frequency = 52,
+  plot_acf = TRUE,
+  do_stl = TRUE
+)
+
+# Shows comprehensive analysis: outliers, stationarity tests, 
+# seasonal decomposition, and differencing recommendations
+```
+
+## Other Functions (at a glance)
+
+We also provide utilities beyond this recommended workflow.
+
+### Epidemiology-style weekly visualization
+- `plot_weekly_cases()` — weekly aggregation and visualization for epi data.
+  - Aggregates by ISO week with user-defined retrospective windows (single range or custom start–end).
+  - Generates three plot types: trend (bar+line), histogram with density, and boxplot.
+  - Supports flexible aggregation functions (`sum`, `mean`, etc.) and optional plot selection.
+  - Calculates and reports 95% confidence intervals for weekly means.
+  - Allows saving plots to file, making it suitable for seasonality checks, outbreak monitoring, and reporting-ready outputs.
+
+### Additional statistical testing
+- `run_group_tests()` — (used above) auto-selects tests + assumptions + effect sizes.
+- `run_paired_tests()` — paired or unpaired comparisons with normality checks and nonparametric fallback.
+- `run_multi_group_tests()` — k-group comparisons (ANOVA / Kruskal–Wallis) with optional post-hoc (Tukey / Dunn).
+- `run_count_two_group_tests()` — compares count data between two groups, automatically chooses Poisson or Negative Binomial regression **based on overdispersion**.
+- `run_count_multi_group_tests()` — compares count data across ≥3 groups, automatically chooses Poisson vs Negative Binomial **based on overdispersion**, reports an overall (ANOVA-like) p-value and, if significant, **post-hoc** pairwise results; optional effect size (McFadden pseudo-R²) and basic assumption diagnostics.
+
+
+### Additional trend modeling
+- `explore_continuous_trend()` — GLM-style trends for continuous outcomes (Gaussian/Gamma), with spline control.
+- `explore_poisson_trend()` — GAM-style trends for count-data  (Poisson / Negative Binomial) with spline control.
+- `explore_zinb_trend()` — zero-inflated counts (ZIP vs ZINB) with AIC/Vuong comparison.
+- `explore_trend_auto()` — (used above) single-entry auto dispatcher choosing a suitable family and functions.
+
+### Time-series readiness
+- `check_rate_diff_arima_ready()` — (used above) stationarity, STL seasonality, differencing and ACF diagnostics before ARIMA.
+
+> These functions can be combined with the same data-prep pattern (wide → long, filtered groups, verified continuity). Pick what you need: quick epi weekly plots, richer hypothesis tests, or specialized trend families for counts and zero-inflated data.
+
+# Summary
+
+This vignette walked through a **streamlined, automated workflow** in `trendtestR` using the built-in `EuStockMarkets` dataset.  
+We started with **data preparation and continuity checks**, moved through **cross-year comparisons**, **auto-selected statistical testing**, and **automatic trend modeling**, and optionally ran **ARIMA readiness checks** for time-series forecasting.  
+
+Beyond this workflow, `trendtestR` provides **modular functions** for epidemiology-style weekly plots, overdispersion-aware count-data testing, and specialized trend models for continuous, count, or zero-inflated data.  
+You can adopt the full automated path for rapid insights, or **mix and match components** for deeper, more customized analyses — all while keeping a consistent data-preparation pattern and diagnostic rigor.  
+
+For detailed functionality, please refer to the help documentation of individual functions.  
+
+**Example use cases include**:  
+
+- Financial time series analysis: stock prices, market indices, trading volumes  
+- Economic data analysis: GDP growth, inflation rates, employment figures  
+- Epidemiological studies: disease incidence rates, vaccination coverage  
+- Environmental monitoring: temperature trends, pollution levels, rainfall patterns  
+- Business analytics: sales trends, customer metrics, operational KPIs  
