@@ -7,11 +7,11 @@
 \usage{
 compare_monthly_cases(
   df,
-  datum_col = "datum",
-  value_col = "neue_faelle",
+  datum_col,
+  value_col,
   group_col = NULL,
-  years = c(2024, 2025),
-  months = 1:5,
+  years,
+  months,
   granularity = "day",
   agg_fun = "sum",
   shift_month = "none",
@@ -22,9 +22,9 @@ compare_monthly_cases(
 \arguments{
 \item{df}{Data frame with at least a date and value column. / Data Frame mit Datum und Wert}
 
-\item{datum_col}{Name of the date column. Default is `"datum"`. / Name der Datums-Spalte}
+\item{datum_col}{Name of the date column.. / Name der Datums-Spalte}
 
-\item{value_col}{Name of the value column. Default is `"neue_faelle"`. / Name der Wertespalte}
+\item{value_col}{Name of the value column. / Name der Wertespalte}
 
 \item{group_col}{Optional grouping variable(s) for faceting. / Optionale Gruppierung}
 
