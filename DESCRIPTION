@@ -22,7 +22,7 @@ Description: Provides a set of exploratory data analysis (EDA) tools for
     handling in `compare_monthly_cases()`, and ARIMA-ready preparation with 
     stationarity diagnostics, ensuring consistent parameter styles for 
     reproducible research and user-friendly workflows.
-License: GPL (>= 3) + file LICENSE
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Imports:
