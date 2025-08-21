@@ -11,6 +11,7 @@ check_rate_diff_arima_ready(
   frequency = 52,
   plot_acf = TRUE,
   do_stl = TRUE,
+  verbose = TRUE,
   max_lag_acf = min(3 * frequency, floor(length(rate_diff_vec)/4))
 )
 }
@@ -24,6 +25,8 @@ check_rate_diff_arima_ready(
 \item{plot_acf}{Logical. Whether to compute and plot ACF/PACF. Default is TRUE. / ACF/PACF anzeigen?}
 
 \item{do_stl}{Logical. Whether to perform and plot STL decomposition. Default is TRUE. / STL-Dekomposition durchfuehren?}
+
+\item{verbose}{Whether to print standardization info /Ob Statusinformationen ausgegeben werden sollen}
 
 \item{max_lag_acf}{Max lag to use for ACF plots. Default is min(3 * frequency, floor(length(rate_diff_vec) / 4)). / Max. Verzoegerung fuer ACF}
 }

@@ -16,6 +16,7 @@
 #' @param plot_acf Logical. Whether to compute and plot ACF/PACF. Default is TRUE. / ACF/PACF anzeigen?
 #' @param do_stl Logical. Whether to perform and plot STL decomposition. Default is TRUE. / STL-Dekomposition durchfuehren?
 #' @param max_lag_acf Max lag to use for ACF plots. Default is min(3 * frequency, floor(length(rate_diff_vec) / 4)). / Max. Verzoegerung fuer ACF
+#' @param verbose  Whether to print standardization info /Ob Statusinformationen ausgegeben werden sollen
 #'
 #' @return A list containing:
 #' \describe{
@@ -43,6 +44,7 @@ check_rate_diff_arima_ready <- function(
     frequency = 52,
     plot_acf = TRUE,
     do_stl = TRUE,
+    verbose = TRUE,
     max_lag_acf = min(3 * frequency, floor(length(rate_diff_vec) / 4))
 ) {
   .iqr_outlier_check <- function(x) {
@@ -145,10 +147,12 @@ check_rate_diff_arima_ready <- function(
   sd_val <- sd(ts_data, na.rm = TRUE)
   cv <- if (is.finite(mean_val) && abs(mean_val) > 1e-6) sd_val / abs(mean_val) else NA
   ljung_test <- stats::Box.test(ts_data, lag = min(20, max(1, floor(n / 4))), type = "Ljung-Box")
+
   has_trend <- if (n > 1) {
     cor_result <- tryCatch(stats::cor.test(1:n, ts_data), error = function(e) NULL)
     !is.null(cor_result) && cor_result$p.value < 0.05
   } else FALSE
+
   has_variation <- is.finite(cv) && cv > 0.01
   has_structure <- ljung_test$p.value < 0.1
   recommendation <- n >= 12 && has_variation && (has_structure || has_trend)
@@ -169,24 +173,30 @@ check_rate_diff_arima_ready <- function(
     recommendation_text = recommendation_text
   )
 
-  cat("=== Zeitreihen-Analysebericht ===\n")
-  cat("Laenge:", length(ts_data), " | Wertebereich:", round(range(ts_data), 5), "\n")
-  if (!is.null(date_vec_clean)) cat("Datum:", format(min(date_vec_clean)), "bis", format(max(date_vec_clean)), "\n")
-  cat("Frequenz:", frequency, "\n\n")
+  if (verbose) {
+    ZeitB <- paste0(
+      "Zeitreihen bericht: \n",
+      "Laenge: ", length(ts_data),
+      " | Wertebereich: ", paste(round(range(ts_data), 5)), "\n",
+      if (!is.null(date_vec_clean)) {
+        paste0("Datum: ", format(min(date_vec_clean)), " bis ", format(max(date_vec_clean)), "\n")
+      } else "",
+      "Frequenz: ", frequency
+    )
+    message(ZeitB)
+  }
 
   if (!is.null(date_vec_clean)) {
     iqr_outlier_idx <- .iqr_outlier_check(rate_diff_vec_clean)
     iqr_outlier_dates <- if (!is.null(date_vec_clean)) date_vec_clean[iqr_outlier_idx] else iqr_outlier_idx
     n_outliers <- length(iqr_outlier_idx)
 
-    if (n_outliers > 0) {
-      cat("=== IQR-Ausreisserpruefung ===\n")
-      cat("Anzahl potenzieller Ausreisser:", length(iqr_outlier_idx), "\n")
-      cat("Z.B. an:", format(date_vec_clean[iqr_outlier_idx[1:min(3, length(iqr_outlier_idx))]]), "\n")
+    if (n_outliers > 0 ) {
+      if (verbose){message("IQR-Ausreisserpruefung:","Anzahl potenzieller Ausreisser:", length(iqr_outlier_idx),
+              "Z.B. an:", format(date_vec_clean[iqr_outlier_idx[1:min(3, length(iqr_outlier_idx))]]))}
 
       plots$plot_timeseries <- .ts_plot(rate_diff_vec_clean, date_vec_clean, var_name = var_name, date_range = date_range) +
-        ggplot2::geom_point(data = data.frame(date = date_vec_clean[iqr_outlier_idx],
-                                              value = rate_diff_vec_clean[iqr_outlier_idx]),
+      ggplot2::geom_point(data = data.frame(date = date_vec_clean[iqr_outlier_idx],                                              value = rate_diff_vec_clean[iqr_outlier_idx]),
                             ggplot2::aes(x = date, y = value),
                             color = "red", size = 2.2, shape = 1, stroke = 1.2)  +
         ggplot2::labs(title = paste0("Zeitreihe mit IQR-Ausreissern (", var_name, ")"))
@@ -196,12 +206,11 @@ check_rate_diff_arima_ready <- function(
     print(plots$plot_timeseries)
   }
 
-  cat("=== Bewertung der Modellierungsnotwendigkeit ===\n")
-  cat("Laenge:", assessment$n, " | Ljung-Box p:", round(assessment$ljung_pvalue, 4), "\n")
-  cat(assessment$recommendation_text, "\n\n")
-
+  if (verbose) {message("Bewertung der Modellierungsnotwendigkeit:","Laenge:", assessment$n, " | Ljung-Box p:", round(assessment$ljung_pvalue, 4))
+    }
   if (!assessment$recommendation) {
-    cat("Analyse wurde fruehzeitig beendet. Basisinformationen sind im Rueckgabeobjekt enthalten.\n\n")
+    if (verbose){message("Analyse wurde fruehzeitig beendet. Basisinformationen sind im Rueckgabeobjekt enthalten.")}
+
     empty_result <- list(
       ts_data = ts_data,
       assessment = assessment,
@@ -220,64 +229,80 @@ check_rate_diff_arima_ready <- function(
     return(invisible(empty_result))
   }
 
-  cat("=== Stationaritaetstests ===\n")
   adf_result <- tseries::adf.test(ts_data)
   kpss_result <- tseries::kpss.test(ts_data, null = "Level")
-  cat(sprintf("ADF: p = %.4f | KPSS: p = %.4f\n", adf_result$p.value, kpss_result$p.value))
-  nd <- tryCatch(forecast::ndiffs(ts_data), error = function(e) NA)
-  nsd <- tryCatch(forecast::nsdiffs(ts_data), error = function(e) NA)
-  if (!is.na(nd)) {
-    cat(sprintf("Empfohlene nicht-saisonale Differenzierung (d): %d\n", nd))
-    if (nd == 0) {
-      cat("    (Die Serie scheint ohne Differenzierung stationaer zu sein.)\n")
-    } else if (nd == 1) {
-      cat("Eine einfache Differenzierung (d = 1) wird empfohlen.\n")
-    } else {
-      cat(sprintf("Achtung: Mehrfache Differenzierung (d = %d) erforderlich: bitte Stabilitaet pruefen.\n", nd))
-    }
-  }
-  if (!is.na(nsd)) {
-    cat(sprintf("Empfohlene saisonale Differenzierung (D): %d (bei Frequenz = %d)\n", nsd, frequency))
-    if (nsd >= 1) {
-      cat("Saisonale Struktur erkannt: saisonale Differenzierung (z.B. diff(x, lag = frequency)) wird empfohlen.\n")
-    }
-  }
-  cat("\n")
-
+  ndiffs_suggested <- tryCatch(forecast::ndiffs(ts_data), error = function(e) NA)
+  nsdiffs_suggested <- tryCatch(forecast::nsdiffs(ts_data), error = function(e) NA)
   is_likely_stationary <- adf_result$p.value < 0.05 && kpss_result$p.value > 0.05
+
+
+  if (verbose) {
+    message(paste0(
+      "Stationaritaetstests:",
+      sprintf("ADF: p = %.4f | KPSS: p = %.4f\n", adf_result$p.value, kpss_result$p.value),
+
+      if (!is.na(ndiffs_suggested)) {
+        paste0(
+          sprintf("Empfohlene nicht-saisonale Differenzierung (d): %d\n", ndiffs_suggested),
+          if (ndiffs_suggested == 0) {
+            "    (Die Serie scheint ohne Differenzierung stationaer zu sein.)\n"
+          } else if (ndiffs_suggested == 1) {
+            "Eine einfache Differenzierung (d = 1) wird empfohlen.\n"
+          } else {
+            sprintf("Achtung: Mehrfache Differenzierung (d = %d) erforderlich: bitte Stabilitaet pruefen.\n",
+                    ndiffs_suggested)
+          }
+        )
+      } else "",
+
+      if (!is.na(nsdiffs_suggested)) {
+        paste0(
+          sprintf("Empfohlene saisonale Differenzierung (D): %d (bei Frequenz = %d)\n",
+                  nsdiffs_suggested, frequency),
+          if (nsdiffs_suggested >= 1) {
+            "Saisonale Struktur erkannt: saisonale Differenzierung (z.B. diff(x, lag = frequency)) wird empfohlen.\n"
+          } else ""
+        )
+      } else ""
+    ))
+  }
 
   if (plot_acf) {
     max_lag <- min(max_lag_acf, floor(length(ts_data) / 4), 40)
     plots$plot_acf <- tryCatch(.acf_plot(ts_data, max_lag, date_range = date_range),
-                               error = function(e) { cat("ACF-Plot fehlgeschlagen\n"); NULL })
+                               error = function(e) {message("ACF-Plot fehlgeschlagen: ", e$message); NULL })
     if (!is.null(plots$plot_acf)) print(plots$plot_acf)
 
     plots$plot_pacf <- tryCatch(.pacf_plot(ts_data, max_lag, date_range = date_range),
-                                error = function(e) { cat("PACF-Plot fehlgeschlagen\n"); NULL })
+                                error = function(e) {message("PACF-Plot fehlgeschlagen: ", e$message); NULL  })
     if (!is.null(plots$plot_pacf)) print(plots$plot_pacf)
   }
 
   stl_result <- NULL
+  if (verbose) {
   if (do_stl && frequency > 1 && length(ts_data) >= 2 * frequency) {
-    cat("=== STL-Zerlegung ===\n")
+    message("STL-Zerlegung:")
     stl_result <- tryCatch({
       stl_obj <- stats::stl(ts_data, s.window = "periodic")
       plot(stl_obj)
       seasonal_strength <- 1 - var(stl_obj$time.series[, "remainder"], na.rm = TRUE) /
         var(stl_obj$time.series[, "remainder"] + stl_obj$time.series[, "seasonal"], na.rm = TRUE)
-      cat("Saisonale Staerke:", round(max(0, seasonal_strength), 3), "\n")
+      message("Saisonale Staerke: ", round(max(0, seasonal_strength), 3))
       stl_obj
     }, error = function(e) {
-      cat("STL-Zerlegung fehlgeschlagen:", e$message, "\n")
+      message("STL-Zerlegung fehlgeschlagen: ", e$message)
       NULL
     })
-  }
+  }}
 
-  cat("=== ARIMA-Empfehlung ===\n")
-  if (is_likely_stationary) {
-    cat("Stationaer. ARIMA(p,0,q) moeglich.\n")
-  } else {
-    cat("Nicht stationaer. Differenzierung empfohlen.\n")
+  if (verbose) {
+    arima_recommendation <- if (is_likely_stationary) {
+      "Stationaer. ARIMA(p,0,q) moeglich."
+    } else {
+      "Nicht stationaer. Differenzierung empfohlen."
+    }
+
+    message("ARIMA-Empfehlung: ", arima_recommendation)
   }
 
   invisible(list(
@@ -291,8 +316,8 @@ check_rate_diff_arima_ready <- function(
       is_likely_stationary = is_likely_stationary,
       adf_p_value = adf_result$p.value,
       kpss_p_value = kpss_result$p.value,
-      ndiffs_suggested = nd,
-      nsdiffs_suggested = nsd
+      ndiffs_suggested = ndiffs_suggested,
+      nsdiffs_suggested = nsdiffs_suggested
     )
   ))
 }
