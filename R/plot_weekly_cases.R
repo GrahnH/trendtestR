@@ -55,7 +55,7 @@ plot_weekly_cases <- function(df,
   woche <- "woche"
 
   #Aggregation
-  value_quoted <- paste0("", gsub("", "", value_col), "")
+  value_quoted <- paste0("`", gsub("`", "", value_col), "`")
   formula_text <- paste0(value_quoted, " ~ ", jahr, " + ", woche)
   agg_function <- match.fun(agg_fun)
   weekly_cases <- aggregate(as.formula(formula_text), data = df, agg_function, na.rm = TRUE)
@@ -158,7 +158,7 @@ plot_weekly_cases <- function(df,
     message("SD nicht vorhanden")
   }
 
-  return(list(
+  invisible(list(
     data = weekly_cases,
     trend_plot = p1,
     hist_plot = p2,

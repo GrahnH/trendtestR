@@ -192,8 +192,11 @@ check_rate_diff_arima_ready <- function(
     n_outliers <- length(iqr_outlier_idx)
 
     if (n_outliers > 0 ) {
-      if (verbose){message("IQR-Ausreisserpruefung:","Anzahl potenzieller Ausreisser:", length(iqr_outlier_idx),
-              "Z.B. an:", format(date_vec_clean[iqr_outlier_idx[1:min(3, length(iqr_outlier_idx))]]))}
+      if (verbose){ message(paste0(
+        "Anzahl potenzieller Ausreisser: ", n_outliers, "\n",
+        "Z.B. an: ",
+        paste(format(date_vec_clean[iqr_outlier_idx[1:min(3, n_outliers)]]), collapse = ", ")
+      ))}
 
       plots$plot_timeseries <- .ts_plot(rate_diff_vec_clean, date_vec_clean, var_name = var_name, date_range = date_range) +
       ggplot2::geom_point(data = data.frame(date = date_vec_clean[iqr_outlier_idx],                                              value = rate_diff_vec_clean[iqr_outlier_idx]),
@@ -206,8 +209,13 @@ check_rate_diff_arima_ready <- function(
     print(plots$plot_timeseries)
   }
 
-  if (verbose) {message("Bewertung der Modellierungsnotwendigkeit:","Laenge:", assessment$n, " | Ljung-Box p:", round(assessment$ljung_pvalue, 4))
-    }
+  if (verbose) {message(paste0(
+    "=== Bewertung der Modellierungsnotwendigkeit ===\n",
+    "Laenge: ", assessment$n, " | Ljung-Box p: ", round(assessment$ljung_pvalue, 4), "\n",
+    assessment$recommendation_text
+  )) }
+
+
   if (!assessment$recommendation) {
     if (verbose){message("Analyse wurde fruehzeitig beendet. Basisinformationen sind im Rueckgabeobjekt enthalten.")}
 
@@ -238,7 +246,7 @@ check_rate_diff_arima_ready <- function(
 
   if (verbose) {
     message(paste0(
-      "Stationaritaetstests:",
+      "=== Stationaritaetstests ===\n",
       sprintf("ADF: p = %.4f | KPSS: p = %.4f\n", adf_result$p.value, kpss_result$p.value),
 
       if (!is.na(ndiffs_suggested)) {
@@ -279,30 +287,26 @@ check_rate_diff_arima_ready <- function(
   }
 
   stl_result <- NULL
-  if (verbose) {
   if (do_stl && frequency > 1 && length(ts_data) >= 2 * frequency) {
-    message("STL-Zerlegung:")
     stl_result <- tryCatch({
       stl_obj <- stats::stl(ts_data, s.window = "periodic")
-      plot(stl_obj)
-      seasonal_strength <- 1 - var(stl_obj$time.series[, "remainder"], na.rm = TRUE) /
-        var(stl_obj$time.series[, "remainder"] + stl_obj$time.series[, "seasonal"], na.rm = TRUE)
-      message("Saisonale Staerke: ", round(max(0, seasonal_strength), 3))
+      if (verbose) {
+        plot(stl_obj)
+        seasonal_strength <- 1 - var(stl_obj$time.series[, "remainder"], na.rm = TRUE) /
+          var(stl_obj$time.series[, "remainder"] + stl_obj$time.series[, "seasonal"], na.rm = TRUE)
+        message("=== STL-Zerlegung ===\nSaisonale Staerke: ", round(max(0, seasonal_strength), 3))
+      }
       stl_obj
     }, error = function(e) {
-      message("STL-Zerlegung fehlgeschlagen: ", e$message)
+      if (verbose) message("=== STL-Zerlegung ===\nFehlgeschlagen: ", e$message)
       NULL
     })
-  }}
+  }
 
   if (verbose) {
-    arima_recommendation <- if (is_likely_stationary) {
-      "Stationaer. ARIMA(p,0,q) moeglich."
-    } else {
-      "Nicht stationaer. Differenzierung empfohlen."
-    }
-
-    message("ARIMA-Empfehlung: ", arima_recommendation)
+    message("=== ARIMA-Empfehlung ===\n",
+            if (is_likely_stationary) "Stationaer. ARIMA(p,0,q) moeglich."
+            else "Nicht stationaer. Differenzierung empfohlen.")
   }
 
   invisible(list(
