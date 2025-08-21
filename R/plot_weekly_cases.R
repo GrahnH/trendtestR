@@ -139,19 +139,24 @@ plot_weekly_cases <- function(df,
   }
 
   #95%CI ausdruecken
+
   x <- weekly_cases[[value_col]]
   n_valid <- sum(!is.na(x))
   mean_x <- mean(x, na.rm = TRUE)
   sd_x <- sd(x, na.rm = TRUE)
-  se <- sd_x / sqrt(n_valid)
-  ci95 <- 1.96 * se
-
-  cat("\n",
-      "Anzahl gueltiger Wochen:", n_valid, "\n",
-      "Mittelwert:", round(mean_x, 2), "\n",
-      "Standardabweichung:", round(sd_x, 2), "\n",
-      "95%-Konfidenzintervall: [", round(mean_x - ci95, 2), ", ", round(mean_x + ci95, 2), "]\n"
-  )
+   if (!is.na(sd_x) && sd_x > 0 && n_valid > 1) {
+    se <- sd_x / sqrt(n_valid)
+    ci95 <- 1.96 * se
+    message(paste0(
+      "\n",
+      "Anzahl gueltiger Wochen: ", n_valid, "\n",
+      "Mittelwert: ", round(mean_x, 2), "\n",
+      "Standardabweichung: ", round(sd_x, 2), "\n",
+      "95%-Konfidenzintervall: [", round(mean_x - ci95, 2), ", ", round(mean_x + ci95, 2), "]"
+    ))
+  } else {
+    message("SD nicht vorhanden")
+  }
 
   return(list(
     data = weekly_cases,
