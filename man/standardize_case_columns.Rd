@@ -3,32 +3,32 @@
 \encoding{UTF-8}
 \name{standardize_case_columns}
 \alias{standardize_case_columns}
-\title{Standardisierung von Datum und Werten / Standardize date and value columns}
+\title{Standardize date and value columns / Standardisierung von Datum und Werten}
 \usage{
 standardize_case_columns(df, datum_col = NULL, value_col, verbose = TRUE)
 }
 \arguments{
-\item{df}{Ein Data Frame / A data.frame}
+\item{df}{A data.frame / Ein Data Frame}
 
-\item{datum_col}{Spaltenname des Datums, default value is NULL / Name of the date column, default is "NULL"}
+\item{datum_col}{Name of the date column, default is "NULL" / Spaltenname des Datums, default value is NULL}
 
-\item{value_col}{Spaltenname der Werte/ Name of the value column}
+\item{value_col}{Name of the value column / Spaltenname der Werte}
 
 \item{verbose}{Ob Statusinformationen ausgegeben werden sollen / Whether to print standardization info}
 }
 \value{
-Ein aufbereiteter Data Frame mit ".value"-Spalte, konvertiertem Datum und ggf. geordnetem "monat"-Faktor.<br>
 A cleaned data.frame with a ".value" column, standardized Date column, and possibly ordered "monat" factor.<br>
+Ein aufbereiteter Data Frame mit ".value"-Spalte, konvertiertem Datum und ggf. geordnetem "monat"-Faktor.<br>
 }
 \description{
-Diese Funktion konvertiert eine Datumsspalte in das `Date`-Format und stellt sicher, dass die
-Wertespalte numerisch ist. Falls eine `"monat"`-Spalte vorhanden ist, wird sie als geordneter
-Faktor umkodiert. Nuetzlich fuer die Vorverarbeitung von Zeitreihendaten (z.B. Fallzahlen).
+This function converts a date column to "Date" format and ensures the value column is numeric.
+If a "monat" column exists, it will be converted to an ordered factor. Useful for preprocessing
+time series data (e.g., daily cases).
 }
 \details{
-This function converts a date column to `Date` format and ensures the value column is numeric.
-If a `"monat"` column exists, it will be converted to an ordered factor. Useful for preprocessing
-time series data (e.g., daily cases).
+Diese Funktion konvertiert eine Datumsspalte in das "Date"-Format und stellt sicher, dass die
+Wertespalte numerisch ist. Falls eine "monat"-Spalte vorhanden ist, wird sie als geordneter
+Faktor umkodiert. Nuetzlich fuer die Vorverarbeitung von Zeitreihendaten (z.B. Fallzahlen).
 }
 \examples{
 df <- data.frame(

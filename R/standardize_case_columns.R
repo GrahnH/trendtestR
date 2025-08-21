@@ -1,22 +1,23 @@
-#' Standardisierung von Datum und Werten / Standardize date and value columns
+#'  Standardize date and value columns / Standardisierung von Datum und Werten
 #'
-#' Diese Funktion konvertiert eine Datumsspalte in das `Date`-Format und stellt sicher, dass die
-#' Wertespalte numerisch ist. Falls eine `"monat"`-Spalte vorhanden ist, wird sie als geordneter
-#' Faktor umkodiert. Nuetzlich fuer die Vorverarbeitung von Zeitreihendaten (z.B. Fallzahlen).
-#'
-#' This function converts a date column to `Date` format and ensures the value column is numeric.
-#' If a `"monat"` column exists, it will be converted to an ordered factor. Useful for preprocessing
+#' This function converts a date column to "Date" format and ensures the value column is numeric.
+#' If a "monat" column exists, it will be converted to an ordered factor. Useful for preprocessing
 #' time series data (e.g., daily cases).
+#'
+#' Diese Funktion konvertiert eine Datumsspalte in das "Date"-Format und stellt sicher, dass die
+#' Wertespalte numerisch ist. Falls eine "monat"-Spalte vorhanden ist, wird sie als geordneter
+#' Faktor umkodiert. Nuetzlich fuer die Vorverarbeitung von Zeitreihendaten (z.B. Fallzahlen).
 #'
 #' @encoding UTF-8
 #'
-#' @param df Ein Data Frame / A data.frame
-#' @param datum_col Spaltenname des Datums, default value is NULL / Name of the date column, default is "NULL"
-#' @param value_col Spaltenname der Werte/ Name of the value column
+#' @param df  A data.frame / Ein Data Frame
+#' @param datum_col Name of the date column, default is "NULL" / Spaltenname des Datums, default value is NULL
+#' @param value_col Name of the value column / Spaltenname der Werte
 #' @param verbose Ob Statusinformationen ausgegeben werden sollen / Whether to print standardization info
 #'
-#' @return Ein aufbereiteter Data Frame mit ".value"-Spalte, konvertiertem Datum und ggf. geordnetem "monat"-Faktor.<br>
-#' A cleaned data.frame with a ".value" column, standardized Date column, and possibly ordered "monat" factor.<br>
+#' @return  A cleaned data.frame with a ".value" column, standardized Date column, and possibly ordered "monat" factor.<br>
+#' Ein aufbereiteter Data Frame mit ".value"-Spalte, konvertiertem Datum und ggf. geordnetem "monat"-Faktor.<br>
+#'
 #'
 #' @seealso [infer_value_type()]
 #' @examples

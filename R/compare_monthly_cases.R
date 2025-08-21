@@ -16,11 +16,11 @@
 #' @param datum_col Name of the date column.. / Name der Datums-Spalte
 #' @param value_col Name of the value column. / Name der Wertespalte
 #' @param group_col Optional grouping variable(s) for faceting. / Optionale Gruppierung
-#' @param years Vector of years to include. E.g., `c(2023, 2024)`. / Zu vergleichende Jahre
+#' @param years Vector of years to include. E.g., c(2023, 2024). / Zu vergleichende Jahre
 #' @param months Vector of months to include (1:12). / Zu vergleichende Monate
-#' @param granularity Aggregation level: `"day"` or `"week"`. / Aggregationsebene
-#' @param agg_fun Aggregation function: `"sum"`, `"mean"`, or `"median"`. / Aggregationsfunktion
-#' @param shift_month Cross-year adjustment for Dec/Jan: `"none"`, `"mth_to_next"`, `"mth_to_prev"`. / Jahreswechsel-Logik
+#' @param granularity Aggregation level: "day" or "week". / Aggregationsebene
+#' @param agg_fun Aggregation function: "sum", "mean", or "median". / Aggregationsfunktion
+#' @param shift_month Cross-year adjustment for Dec/Jan: "none", "mth_to_next", "mth_to_prev". / Jahreswechsel-Logik
 #' @param save_plot Logical. Whether to save the plots as PNG files. / Plots speichern?
 #' @param save_path Path to folder where plots should be saved. / Speicherpfad
 #'
@@ -38,22 +38,22 @@
 #' @details
 #' Function Behavior and Notes:
 #' - The function compares a numeric variable (e.g., case counts) across selected months and years.
-#' - Aggregation can be done at the `"day"` or `"week"` level (ISO week, Monday start).
-#' - When `shift_month` is set to `"mth_to_next"` or `"mth_to_prev"`, months like December and January can be merged across year boundaries:
-#'     - `"mth_to_next"`: assigns months to the *next* year group (e.g., Dec 2023 to 2024).
-#'     - `"mth_to_prev"`: assigns monthd to the *previous* year group (e.g., Jan 2024 to 2023).
-#' - All plots (`trend_plot`, `monthly_trend_plot`, `box_plot`) are automatically colored by year and faceted if `group_col` is provided.
-#' - Statistical tests are performed automatically based on the number of groups (e.g., `t.test`, `Wilcoxon`, `ANOVA`, `Kruskal-Wallis`).
+#' - Aggregation can be done at the "day" or "week" level (ISO week, Monday start).
+#' - When shift_month is set to "mth_to_next" or "mth_to_prev", months like December and January can be merged across year boundaries:
+#'     - "mth_to_next": assigns months to the *next* year group (e.g., Dec 2023 to 2024).
+#'     - "mth_to_prev": assigns monthd to the *previous* year group (e.g., Jan 2024 to 2023).
+#' - All plots (trend_plot, monthly_trend_plot, box_plot) are automatically colored by year and faceted if group_col is provided.
+#' - Statistical tests are performed automatically based on the number of groups (e.g., t.test, Wilcoxon, ANOVA, Kruskal-Wallis).
 #'
 #' ---
 #'
 #' Funktionsverhalten und Hinweise:
 #' - Die Funktion vergleicht eine numerische Variable (z.B. Fallzahlen) ueber Monate und Jahre hinweg.
-#' - Die Aggregation erfolgt auf `"day"`- oder `"week"`-Ebene (ISO-Woche, Montag-basiert).
-#' - Mit `shift_month = "mth_to_next"` oder `"mth_to_prev"` koennen Monate ueber Jahresgrenzen hinweg zugeordnet werden:
-#'     - `"mth_to_next"`: Monat zum Folgejahr (z.B. Dez. 2023 → 2024)
-#'     - `"mth_to_prev"`: Monat zum Vorjahr (z.B. Jan. 2024 → 2023)
-#' - Alle Plots sind nach Jahr eingefaerbt; bei Angabe von `group_col` erfolgt eine Facetierung.
+#' - Die Aggregation erfolgt auf "day"- oder "week"-Ebene (ISO-Woche, Montag-basiert).
+#' - Mit shift_month = "mth_to_next" oder "mth_to_prev" koennen Monate ueber Jahresgrenzen hinweg zugeordnet werden:
+#'     - "mth_to_next": Monat zum Folgejahr (z.B. Dez. 2023 → 2024)
+#'     - "mth_to_prev": Monat zum Vorjahr (z.B. Jan. 2024 → 2023)
+#' - Alle Plots sind nach Jahr eingefaerbt; bei Angabe von group_col erfolgt eine Facetierung.
 #' - Die geeigneten statistischen Tests werden automatisch ausgewaehlt und durchgefuehrt.
 #'
 #' ---
