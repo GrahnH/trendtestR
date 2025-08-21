@@ -174,16 +174,15 @@ check_rate_diff_arima_ready <- function(
   )
 
   if (verbose) {
-    ZeitB <- paste0(
-      "Zeitreihen bericht: \n",
+    message(paste0(
+      "=== Zeitreihen-Analysebericht ===\n",
       "Laenge: ", length(ts_data),
-      " | Wertebereich: ", paste(round(range(ts_data), 5)), "\n",
-      if (!is.null(date_vec_clean)) {
+      " | Wertebereich: ", paste(round(range(ts_data), 5), collapse = " - "), "\n",
+      if (!is.null(date_vec_clean))
         paste0("Datum: ", format(min(date_vec_clean)), " bis ", format(max(date_vec_clean)), "\n")
-      } else "",
-      "Frequenz: ", frequency
-    )
-    message(ZeitB)
+      else "",
+      "Frequenz: ", frequency, "\n"
+    ))
   }
 
   if (!is.null(date_vec_clean)) {
@@ -209,10 +208,10 @@ check_rate_diff_arima_ready <- function(
     print(plots$plot_timeseries)
   }
 
-  if (verbose) {message(paste0(
+  if (verbose) {message(paste0("\n",
     "=== Bewertung der Modellierungsnotwendigkeit ===\n",
     "Laenge: ", assessment$n, " | Ljung-Box p: ", round(assessment$ljung_pvalue, 4), "\n",
-    assessment$recommendation_text
+    assessment$recommendation_text, "\n"
   )) }
 
 
@@ -272,7 +271,7 @@ check_rate_diff_arima_ready <- function(
           } else ""
         )
       } else ""
-    ))
+     ))
   }
 
   if (plot_acf) {
