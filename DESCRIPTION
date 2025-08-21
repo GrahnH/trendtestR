@@ -1,7 +1,7 @@
 Package: trendtestR
 Type: Package
 Title: Exploratory Trend Analysis and Visualization for Time-Series and Grouped Data
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person(
       "Gelan Huang",

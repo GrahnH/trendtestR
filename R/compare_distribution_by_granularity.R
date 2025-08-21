@@ -13,7 +13,7 @@
 #' @param res_week Result object from weekly-level analysis. / Ergebnisobjekt der Wochenebene
 #' @param plot Logical. Whether to display QQ plots. / QQ-Plots anzeigen?
 #' @param save_plot Logical. Whether to save the plot as PNG. / Soll der Plot gespeichert werden?
-#' @param save_path Folder to save plot. Default is `"."`. / Speicherpfad fuer den Plot
+#' @param save_path Folder to save plot. Default is ".". / Speicherpfad fuer den Plot
 #'
 #' @return A data frame with normality diagnostics for each granularity level.
 #' \describe{

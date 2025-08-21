@@ -10,15 +10,15 @@ standardize_case_columns(df, datum_col = NULL, value_col, verbose = TRUE)
 \arguments{
 \item{df}{Ein Data Frame / A data.frame}
 
-\item{datum_col}{Spaltenname des Datums, default value is NULL / Name of the date column, default is `NULL`}
+\item{datum_col}{Spaltenname des Datums, default value is NULL / Name of the date column, default is "NULL"}
 
-\item{value_col}{Spaltenname der Werte, Standard: `"neue_faelle"` / Name of the value column, default is `"neue_faelle"`}
+\item{value_col}{Spaltenname der Werte/ Name of the value column}
 
 \item{verbose}{Ob Statusinformationen ausgegeben werden sollen / Whether to print standardization info}
 }
 \value{
-Ein aufbereiteter Data Frame mit `.value`-Spalte, konvertiertem Datum und ggf. geordnetem `monat`-Faktor.<br>
-A cleaned data.frame with a `.value` column, standardized `Date` column, and possibly ordered `monat` factor.<br>
+Ein aufbereiteter Data Frame mit ".value"-Spalte, konvertiertem Datum und ggf. geordnetem "monat"-Faktor.<br>
+A cleaned data.frame with a ".value" column, standardized Date column, and possibly ordered "monat" factor.<br>
 }
 \description{
 Diese Funktion konvertiert eine Datumsspalte in das `Date`-Format und stellt sicher, dass die

@@ -18,17 +18,17 @@ run_group_tests(
 \arguments{
 \item{df}{A data frame with at least two groups. / Ein Data Frame mit mindestens zwei Gruppen}
 
-\item{value_col}{Name of the column containing values to compare. Default is `".value"`. / Name der Werte-Spalte, Standard: `".value"`}
+\item{value_col}{Name of the column containing values to compare. Default is ".value". / Name der Werte-Spalte, Standard: ".value"}
 
-\item{group_col}{Name of the grouping variable. Default is `"jahr"`. / Spaltenname der Gruppierungsvariable, Standard: `"jahr"`}
+\item{group_col}{Name of the grouping variable. Default is "jahr". / Spaltenname der Gruppierungsvariable, Standard: "jahr"}
 
-\item{alpha}{Significance level for hypothesis testing. Default is `0.05`. / Signifikanzniveau fuer Testentscheidungen, Standard: `0.05`}
+\item{alpha}{Significance level for hypothesis testing. Default is 0.05. / Signifikanzniveau fuer Testentscheidungen, Standard: 0.05}
 
 \item{effect_size}{Logical. Whether to calculate effect sizes. / Logisch, ob Effektgroessen berechnet werden sollen}
 
 \item{report_assumptions}{Logical. Whether to include assumption check results. / Logisch, ob Vorannahmen ausgegeben werden sollen}
 
-\item{paired}{Only relevant for two groups: `TRUE` for paired data. / Nur bei zwei Gruppen relevant: `TRUE` fuer gepaarte Daten}
+\item{paired}{Only relevant for two groups: TRUE for paired data. / Nur bei zwei Gruppen relevant: TRUE fuer gepaarte Daten}
 }
 \value{
 A list containing:

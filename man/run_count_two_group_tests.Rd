@@ -16,15 +16,15 @@ run_count_two_group_tests(
 )
 }
 \arguments{
-\item{df}{A data frame containing the data, already prepared (e.g., by `prepare_group_data`).}
+\item{df}{A data frame containing the data, already prepared (e.g., by prepare_group_data).}
 
-\item{value_col}{Name of the column containing count values. Default is `".value"`.}
+\item{value_col}{Name of the column containing count values. Default is ".value".}
 
-\item{group_col}{Name of the grouping variable. Default is `"jahr"`.}
+\item{group_col}{Name of the grouping variable. Default is "jahr".}
 
-\item{alpha}{Significance level for hypothesis testing. Default is `0.05`.}
+\item{alpha}{Significance level for hypothesis testing. Default is 0.05.}
 
-\item{phi}{Common heuristic for overdispersion. Default is `1.5`.}
+\item{phi}{Common heuristic for overdispersion. Default is 1.5.}
 
 \item{effect_size}{Logical. Whether to calculate and return a simple effect size (e.g., Incidence Rate Ratio).}
 

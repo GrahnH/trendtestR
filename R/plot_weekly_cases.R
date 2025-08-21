@@ -7,11 +7,11 @@
 #' @encoding UTF-8
 #'
 #' @param df A data.frame with date and value columns. / Ein Data Frame mit Datums- und Wertespalten
-#' @param datum_col Name of the date column, default is `"datum"`. / Name der Datumsspalte, Standard: `"datum"`
+#' @param datum_col Name of the date column, default is "datum". / Name der Datumsspalte, Standard: "datum"
 #' @param value_col Name of the value column. / Name der Wertespalte /
 #' @param weeks_back Number of recent weeks or a length-2 numeric vector. / Anzahl der zurueckliegenden Wochen oder ein Vektor mit zwei Werten
-#' @param agg_fun Aggregation function (e.g., `"sum"`, `"mean"`). / Aggregationsfunktion, z.B. `"sum"`, `"mean"`
-#' @param plottype Optional plot type: `1` for all, `2` for hist+box, `3` for trend+box. / Optionaler Plottyp: `1` fuer alle, `2` fuer hist+box, `3` fuer trend+box
+#' @param agg_fun Aggregation function (e.g., "sum", "mean"). / Aggregationsfunktion, z.B. "sum", "mean"
+#' @param plottype Optional plot type: 1 for all, 2 for hist+box, 3 for trend+box. / Optionaler Plottyp: 1 fuer alle, 2 fuer hist+box, 3 fuer trend+box
 #' @param save_plot Logical, whether to save the plots. / Logisch, ob die Plots gespeichert werden sollen
 #' @param save_path Folder to save the plots. / Zielpfad zum Speichern der Plots
 #'
@@ -55,7 +55,7 @@ plot_weekly_cases <- function(df,
   woche <- "woche"
 
   #Aggregation
-  value_quoted <- paste0("`", gsub("`", "", value_col), "`")
+  value_quoted <- paste0("", gsub("", "", value_col), "")
   formula_text <- paste0(value_quoted, " ~ ", jahr, " + ", woche)
   agg_function <- match.fun(agg_fun)
   weekly_cases <- aggregate(as.formula(formula_text), data = df, agg_function, na.rm = TRUE)

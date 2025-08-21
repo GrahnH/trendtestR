@@ -24,7 +24,7 @@ filter_by_groupcol(
 
 \item{datum_col}{A string for the date column (default: "datum").}
 
-\item{keep_levels}{Optional vector of levels to retain in `group_col`. Default = NULL (keep all).}
+\item{keep_levels}{Optional vector of levels to retain in group_col. Default = NULL (keep all).}
 
 \item{to_wide}{Logical, if TRUE returns a wide-format table (each level a column).}
 

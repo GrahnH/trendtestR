@@ -20,13 +20,13 @@ check_input_validity(
 
 \item{years}{Integer vector of years (must be strictly increasing). / Vektor der Jahre (streng aufsteigend).}
 
-\item{shift_month}{One of `"none"`, `"mth_to_next"`, `"mth_to_prev"`; defines cross-year logic. / Jahreslogik.}
+\item{shift_month}{One of "none", "mth_to_next", "mth_to_prev"; defines cross-year logic. / Jahreslogik.}
 
-\item{granularity}{`"day"` or `"week"`. / Aggregationsebene.}
+\item{granularity}{"day" or "week". / Aggregationsebene.}
 
-\item{agg_fun}{Aggregation function: `"sum"`, `"mean"`, or `"median"`. / Aggregationsfunktion.}
+\item{agg_fun}{Aggregation function: "sum", "mean", or "median". / Aggregationsfunktion.}
 
-\item{df}{Data frame used to validate `group_col`. / Datensatz zur Validierung von `group_col`.}
+\item{df}{Data frame used to validate group_col. / Datensatz zur Validierung von group_col.}
 
 \item{group_col}{Optional grouping column(s) to validate. / Optionale Gruppierungsvariable(n).}
 }
@@ -35,29 +35,29 @@ A list with standardized values for:
 \describe{
   \item{months}{Validated months vector}
   \item{years}{Validated and sorted years}
-  \item{granularity}{One of `"day"` or `"week"`}
-  \item{agg_fun}{One of `"sum"`, `"mean"`, or `"median"`}
+  \item{granularity}{One of "day" or "week"}
+  \item{agg_fun}{One of "sum", "mean", or "median"}
   \item{shift_month}{Cross-year setting}
 }
 }
 \description{
-This function checks the validity of time-based and grouping arguments passed to functions like `compare_monthly_cases()`.
-It validates month/year ranges, aggregation settings, and optionally the presence and structure of `group_col`,
+This function checks the validity of time-based and grouping arguments passed to functions like compare_monthly_cases().
+It validates month/year ranges, aggregation settings, and optionally the presence and structure of group_col,
 returning standardized values and user-friendly messages for potential issues (e.g., non-factors or too many levels).
 }
 \details{
-Diese Funktion prueft Zeit- und Gruppierungsparameter, wie sie z.B. in `compare_monthly_cases()` verwendet werden.
-Sie validiert Monats- und Jahresangaben, Aggregationseinstellungen und (optional) die Struktur von `group_col`,
+Diese Funktion prueft Zeit- und Gruppierungsparameter, wie sie z.B. in compare_monthly_cases() verwendet werden.
+Sie validiert Monats- und Jahresangaben, Aggregationseinstellungen und (optional) die Struktur von group_col,
 und gibt standardisierte Werte sowie Hinweise bei potenziellen Problemen (z.B. fehlende Faktoren, zu viele Gruppen) zurueck.
 
 
 Function Behavior and Messages:
-- Issues `stop()` for invalid months/years or aggregation settings.
-- Warns if `group_col` is missing in `df`.
+- Issues stop() for invalid months/years or aggregation settings.
+- Warns if group_col is missing in df.
 - Gives messages if group variables are not factors, or if too many levels (>8) are detected.
 
 Funktionsverhalten und Hinweise:
-- Bei ungueltigen Zeitangaben erfolgt ein Abbruch (`stop()`).
+- Bei ungueltigen Zeitangaben erfolgt ein Abbruch (stop()).
 - Warnung bei nicht vorhandenen Gruppierungsvariablen.
 - Hinweis, falls Gruppenvariablen keine Faktoren sind oder zu viele Auspraegungen (>8) besitzen.
 }

@@ -11,12 +11,12 @@
 #' @encoding UTF-8
 #'
 #' @param df Ein Data Frame / A data.frame
-#' @param datum_col Spaltenname des Datums, default value is NULL / Name of the date column, default is `NULL`
-#' @param value_col Spaltenname der Werte, Standard: `"neue_faelle"` / Name of the value column, default is `"neue_faelle"`
+#' @param datum_col Spaltenname des Datums, default value is NULL / Name of the date column, default is "NULL"
+#' @param value_col Spaltenname der Werte/ Name of the value column
 #' @param verbose Ob Statusinformationen ausgegeben werden sollen / Whether to print standardization info
 #'
-#' @return Ein aufbereiteter Data Frame mit `.value`-Spalte, konvertiertem Datum und ggf. geordnetem `monat`-Faktor.<br>
-#' A cleaned data.frame with a `.value` column, standardized `Date` column, and possibly ordered `monat` factor.<br>
+#' @return Ein aufbereiteter Data Frame mit ".value"-Spalte, konvertiertem Datum und ggf. geordnetem "monat"-Faktor.<br>
+#' A cleaned data.frame with a ".value" column, standardized Date column, and possibly ordered "monat" factor.<br>
 #'
 #' @seealso [infer_value_type()]
 #' @examples

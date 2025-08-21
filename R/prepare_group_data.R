@@ -4,12 +4,12 @@
 #'
 #' @description
 #' This function prepares a dataset for grouped statistical tests by:
-#' - Filtering out `NA` values in the target variable;
+#' - Filtering out NA values in the target variable;
 #' - Dropping empty groups and reporting excluded levels;
 #' - Splitting the values by group and computing sample sizes.
 #'
 #' Diese Funktion bereitet Daten fuer gruppierte Tests vor:
-#' - Entfernt fehlende Werte (`NA`) in der Zielvariablen;
+#' - Entfernt fehlende Werte (NA) in der Zielvariablen;
 #' - Entfernt leere Gruppen und gibt eine Warnung aus;
 #' - Teilt die Werte nach Gruppen und berechnet Stichprobengroessen.
 #'

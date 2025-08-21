@@ -18,7 +18,7 @@
 #' @param control Optional control parameters for model fitting (e.g., maxit). / Optionale Steuerparameter fuer die Modellanpassung.
 #'
 #' @return Result from the appropriate trend analysis function. /
-#' Rueckgabe des Ergebnisses der ausgewaehlten Trendanalysefunktion (z.B. `explore_poisson_trend()`).
+#' Rueckgabe des Ergebnisses der ausgewaehlten Trendanalysefunktion (z.B. explore_poisson_trend()).
 #'
 #' @seealso [explore_poisson_trend()], [explore_zinb_trend()], [explore_continuous_trend()], [infer_value_type()], [prepare_group_data()]
 #'

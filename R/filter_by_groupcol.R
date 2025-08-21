@@ -20,7 +20,7 @@
 #' @param group_col A string specifying the grouping column (e.g., "region", "age_group").
 #' @param value_col A string for the value column (default: "neue_faelle").
 #' @param datum_col A string for the date column (default: "datum").
-#' @param keep_levels Optional vector of levels to retain in `group_col`. Default = NULL (keep all).
+#' @param keep_levels Optional vector of levels to retain in group_col. Default = NULL (keep all).
 #' @param to_wide Logical, if TRUE returns a wide-format table (each level a column).
 #' @param keep_other_cols Logical, if TRUE keeps all other original columns.
 #'

@@ -9,13 +9,13 @@
 #' Gibt zurueck, ob die Zeitreihe vollstaendig ist, und listet fehlende Zeitpunkte auf.
 #' @encoding UTF-8
 #' @param date_vec A vector of dates. / Ein Datumsvektor
-#' @param years Numeric vector indicating year range (e.g., `c(2021, 2022)`). / Jahr(e)
+#' @param years Numeric vector indicating year range (e.g., c(2021, 2022)). / Jahr(e)
 #' @param months Numeric vector of months (1:12). / Monate (1:12)
-#' @param window_unit Time unit for continuity check: `"day"`, `"week"`, or `"month"`. / Zeiteinheit fuer Pruefung
-#' @param step Step size for the sequence. Default is `1`. / Schrittweite
-#' @param use_isoweek Logical. If `TRUE`, weeks start on Monday. / ISO-Woche (Montag)?
-#' @param start_date Optional. Override default start date (must be in `"YYYY-MM-DD"` format). / Optionales Startdatum
-#' @param allow_leading_gap Logical. If `TRUE`, allows first date to be missing but considers rest as continuous. / Erlaubt Anfangsluecke?
+#' @param window_unit Time unit for continuity check: "day", "week", or "month". / Zeiteinheit fuer Pruefung
+#' @param step Step size for the sequence. Default is 1. / Schrittweite
+#' @param use_isoweek Logical. If TRUE, weeks start on Monday. / ISO-Woche (Montag)?
+#' @param start_date Optional. Override default start date (must be in "YYYY-MM-DD" format). / Optionales Startdatum
+#' @param allow_leading_gap Logical. If TRUE, allows first date to be missing but considers rest as continuous. / Erlaubt Anfangsluecke?
 #'
 #' @return A list with the following elements:
 #' \describe{

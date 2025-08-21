@@ -29,10 +29,10 @@ diagnose_model_trend(
 A list with ggplot2 plots and diagnostic test results. /
 Eine Liste mit ggplot2-Plots und diagnostischen Testergebnissen:
 \describe{
-  \item{plots}{A named list with residual plots (`residuals_vs_fitted`, `qq`, `scale_location`). /
-               Eine Liste mit Residuenplots (`residuals_vs_fitted`, `qq`, `scale_location`).}
-  \item{diagnostics}{A named list of statistical test results (Shapiro, KS, Levene, GAM check). /
-                     Eine Liste mit Ergebnissen statistischer Tests (Shapiro, KS, Levene, GAM check).}
+  \item{plots}{A named list with residual plots ("residuals_vs_fitted", "qq", "scale_location"). /
+               Eine Liste mit Residuenplots ("residuals_vs_fitted", "qq", "scale_location").}
+  \item{diagnostics}{A named list of statistical test results ("Shapiro", "KS", "Levene", "GAM check"). /
+                     Eine Liste mit Ergebnissen statistischer Tests ("Shapiro", "KS", "Levene", "GAM check").}
 }
 }
 \description{

@@ -30,8 +30,8 @@ explore_zinb_trend(
 
 \item{k_spline}{Basis dimension for spline terms (default = 4). / Basisdimension fuer Spline-Terme (Standard = 4).}
 
-\item{family}{One of `"zip"`, `"zinb"`, or `"auto"`. If `"auto"`, selects model based on AIC. /
-Einer von `"zip"`, `"zinb"` oder `"auto"`. Bei `"auto"` erfolgt die Auswahl basierend auf AIC.}
+\item{family}{One of "zip", "zinb", or "auto". If "auto", selects model based on AIC. /
+Einer von "zip", "zinb" oder "auto". Bei "auto" erfolgt die Auswahl basierend auf AIC.}
 
 \item{run_vuong}{Logical. If TRUE, run Vuong test for model comparison (default = FALSE). /
 Wenn TRUE, wird Vuong-Test fuer Modellvergleich durchgefuehrt (Standard = FALSE).}
@@ -40,14 +40,14 @@ Wenn TRUE, wird Vuong-Test fuer Modellvergleich durchgefuehrt (Standard = FALSE)
 
 \item{verbose}{Logical. Whether to print model fitting messages. / Ob Meldungen zur Modellanpassung gedruckt werden.}
 
-\item{control}{Optional. List for `pscl::zeroinfl.control` (e.g., `list(maxit = 200)`). Default: `maxit = 100`. /
-Steuerparameter fuer `pscl::zeroinfl.control` (z.B. `list(maxit = 200)`). Standard: `maxit = 100`.}
+\item{control}{Optional. List for pscl::zeroinfl.control (e.g., list(maxit = 200)). Default: maxit = 100. /
+Steuerparameter fuer pscl::zeroinfl.control (z.B. list(maxit = 200)). Standard: maxit = 100.}
 }
 \value{
 A list containing model object and diagnostics. /
 Eine Liste mit Modellobjekt und Diagnoseergebnissen:
 \describe{
-  \item{model}{The fitted `zeroinfl` model. / Das angepasste `zeroinfl`-Modell.}
+  \item{model}{The fitted zeroinfl model. / Das angepasste zeroinfl-Modell.}
   \item{summary}{Model summary (if available). / Modellzusammenfassung (wenn verfuegbar).}
   \item{plot}{Trend plot with fitted values (ggplot2). / Trendplot mit geschaetzten Werten (ggplot2).}
   \item{model_family_used}{Used model type: "ZIP" or "ZINB". / Verwendeter Modelltyp: "ZIP" oder "ZINB".}

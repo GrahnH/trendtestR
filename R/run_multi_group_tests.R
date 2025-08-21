@@ -13,9 +13,9 @@
 #' @encoding UTF-8
 #'
 #' @param df A data frame with three or more groups. / Ein Data Frame mit drei oder mehr Gruppen
-#' @param value_col Name of the column containing values to compare. Default is `".value"`. / Name der Werte-Spalte, Standard: `".value"`
-#' @param group_col Name of the grouping variable. Default is `"jahr"`. / Spaltenname der Gruppierungsvariable, Standard: `"jahr"`
-#' @param alpha Significance level for hypothesis testing. Default is `0.05`. / Signifikanzniveau fuer Testentscheidungen, Standard: `0.05`
+#' @param value_col Name of the column containing values to compare. Default is ".value". / Name der Werte-Spalte, Standard: ".value"
+#' @param group_col Name of the grouping variable. Default is "jahr". / Spaltenname der Gruppierungsvariable, Standard: "jahr"
+#' @param alpha Significance level for hypothesis testing. Default is 0.05. / Signifikanzniveau fuer Testentscheidungen, Standard: 0.05
 #' @param effect_size Logical. Whether to calculate eta2 or its approximation. / Logisch, ob eta2 berechnet werden soll
 #' @param report_assumptions Logical. Whether to include assumption checks. / Logisch, ob Vorannahmen ausgegeben werden sollen
 #'

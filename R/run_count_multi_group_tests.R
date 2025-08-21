@@ -13,11 +13,11 @@
 #'
 #' @encoding UTF-8
 #'
-#' @param df A data frame containing the data, already prepared (e.g., by `prepare_group_data`).
-#' @param value_col Name of the column containing count values. Default is `".value"`.
-#' @param group_col Name of the grouping variable. Default is `"jahr"`.
-#' @param alpha Significance level for hypothesis testing. Default is `0.05`.
-#' @param phi Common heuristic for overdispersion. Default is `1.5`.
+#' @param df A data frame containing the data, already prepared (e.g., by prepare_group_data).
+#' @param value_col Name of the column containing count values. Default is ".value".
+#' @param group_col Name of the grouping variable. Default is "jahr".
+#' @param alpha Significance level for hypothesis testing. Default is 0.05.
+#' @param phi Common heuristic for overdispersion. Default is 1.5.
 #' @param effect_size Logical. Whether to calculate and return a simple effect size (e.g., Pseudo R-squared).
 #' @param report_assumptions Logical. Whether to report basic assumption diagnostics (e.g., overdispersion status).
 #'

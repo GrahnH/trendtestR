@@ -18,11 +18,11 @@ run_paired_tests(
 \arguments{
 \item{df}{A data frame with exactly two groups. / Ein Data Frame mit genau zwei Gruppen}
 
-\item{value_col}{Name of the column containing values to compare. Default is `".value"`. / Name der Werte-Spalte, Standard: `".value"`}
+\item{value_col}{Name of the column containing values to compare. Default is ".value". / Name der Werte-Spalte, Standard: ".value"}
 
-\item{group_col}{Name of the grouping variable. Default is `"jahr"`. / Spaltenname der Gruppierungsvariable, Standard: `"jahr"`}
+\item{group_col}{Name of the grouping variable. Default is "jahr". / Spaltenname der Gruppierungsvariable, Standard: "jahr"}
 
-\item{alpha}{Significance level for hypothesis testing. Default is `0.05`. / Signifikanzniveau fuer Testentscheidungen, Standard: `0.05`}
+\item{alpha}{Significance level for hypothesis testing. Default is 0.05. / Signifikanzniveau fuer Testentscheidungen, Standard: 0.05}
 
 \item{effect_size}{Logical. Whether to calculate Cohen's d. / Logisch, ob Cohen's d berechnet werden soll}
 

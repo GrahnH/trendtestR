@@ -19,19 +19,19 @@ check_continuity_by_window(
 \arguments{
 \item{date_vec}{A vector of dates. / Ein Datumsvektor}
 
-\item{years}{Numeric vector indicating year range (e.g., `c(2021, 2022)`). / Jahr(e)}
+\item{years}{Numeric vector indicating year range (e.g., c(2021, 2022)). / Jahr(e)}
 
 \item{months}{Numeric vector of months (1:12). / Monate (1:12)}
 
-\item{window_unit}{Time unit for continuity check: `"day"`, `"week"`, or `"month"`. / Zeiteinheit fuer Pruefung}
+\item{window_unit}{Time unit for continuity check: "day", "week", or "month". / Zeiteinheit fuer Pruefung}
 
-\item{step}{Step size for the sequence. Default is `1`. / Schrittweite}
+\item{step}{Step size for the sequence. Default is 1. / Schrittweite}
 
-\item{use_isoweek}{Logical. If `TRUE`, weeks start on Monday. / ISO-Woche (Montag)?}
+\item{use_isoweek}{Logical. If TRUE, weeks start on Monday. / ISO-Woche (Montag)?}
 
-\item{start_date}{Optional. Override default start date (must be in `"YYYY-MM-DD"` format). / Optionales Startdatum}
+\item{start_date}{Optional. Override default start date (must be in "YYYY-MM-DD" format). / Optionales Startdatum}
 
-\item{allow_leading_gap}{Logical. If `TRUE`, allows first date to be missing but considers rest as continuous. / Erlaubt Anfangsluecke?}
+\item{allow_leading_gap}{Logical. If TRUE, allows first date to be missing but considers rest as continuous. / Erlaubt Anfangsluecke?}
 }
 \value{
 A list with the following elements:

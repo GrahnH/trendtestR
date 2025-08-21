@@ -14,7 +14,7 @@ explore_poisson_trend_Legacy <- function(data, datum_col, value_col, group_col =
                                   phi_threshold = 1.5, return_formula = FALSE,
                                   verbose = FALSE) {
 
-  warning("Diese Funktion ist veraltet. Bitte verwenden Sie `explore_count_trend()`.", call. = FALSE)
+  warning("Diese Funktion ist veraltet. Bitte verwenden Sie explore_count_trend().", call. = FALSE)
   .log_msg <- function(...) if (verbose) message(...)
 
   .fit_glm_robustly <- function(formula, data, type) {

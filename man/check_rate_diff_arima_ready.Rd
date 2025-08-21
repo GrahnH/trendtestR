@@ -19,13 +19,13 @@ check_rate_diff_arima_ready(
 
 \item{date_vec}{Optional. Corresponding date vector (used for plotting). / Optionaler Datumsvektor}
 
-\item{frequency}{Time series frequency (e.g., `52` for weekly). Default is `52`. / Frequenz der Zeitreihe}
+\item{frequency}{Time series frequency (e.g., 52 for weekly). Default is 52. / Frequenz der Zeitreihe}
 
-\item{plot_acf}{Logical. Whether to compute and plot ACF/PACF. Default is `TRUE`. / ACF/PACF anzeigen?}
+\item{plot_acf}{Logical. Whether to compute and plot ACF/PACF. Default is TRUE. / ACF/PACF anzeigen?}
 
-\item{do_stl}{Logical. Whether to perform and plot STL decomposition. Default is `TRUE`. / STL-Dekomposition durchfuehren?}
+\item{do_stl}{Logical. Whether to perform and plot STL decomposition. Default is TRUE. / STL-Dekomposition durchfuehren?}
 
-\item{max_lag_acf}{Max lag to use for ACF plots. Default is `min(3 * frequency, floor(length(rate_diff_vec) / 4))`. / Max. Verzoegerung fuer ACF}
+\item{max_lag_acf}{Max lag to use for ACF plots. Default is min(3 * frequency, floor(length(rate_diff_vec) / 4)). / Max. Verzoegerung fuer ACF}
 }
 \value{
 A list containing:

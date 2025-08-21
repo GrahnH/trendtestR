@@ -12,8 +12,8 @@
 #' @param group_col Optional. Name of grouping column for interaction. / Optional. Name der Gruppierungs-Spalte fuer Interaktion.
 #' @param k_spline Basis dimension for smooth terms (default = 4). Larger k allows more complex curves. /
 #' Basisdimension fuer glatte Terme (Standard = 4). Hoeheres k erlaubt komplexere Kurven.
-#' @param family Specifies the GAM family: `"auto"` (default, chooses based on overdispersion), `"poisson"`, or `"negbin"`. /
-#' Gibt die GAM-Familie an: `"auto"` (Standard, Auswahl basierend auf Overdispersion), `"poisson"` oder `"negbin"`.
+#' @param family Specifies the GAM family: "auto" (default, chooses based on overdispersion), "poisson", or "negbin". /
+#' Gibt die GAM-Familie an: "auto" (Standard, Auswahl basierend auf Overdispersion), "poisson" oder "negbin".
 #' @param phi Overdispersion parameter threshold for model selection (default = 1.5). /
 #' Schwellwert fuer Overdispersion zur Modellauswahl (Standard = 1.5).
 #' @param return_formula If TRUE, returns the model formula instead of fitting. / Wenn TRUE, wird die Modellformel zurueckgegeben.

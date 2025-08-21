@@ -2,7 +2,10 @@
 
 0 errors | 0 warnings | 1 note
 
-* This is a new release.
+* This is a resubmission.
+
+- Fixed LICENSE specification according to CRAN feedback.
+- Bumped version 1.0.1
 
 * Note:
   - `checking for future file timestamps ... NOTE`

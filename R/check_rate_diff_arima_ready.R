@@ -12,10 +12,10 @@
 #'
 #' @param rate_diff_vec Numeric vector of rate differences. / Numerischer Vektor (z.B. Rate)
 #' @param date_vec Optional. Corresponding date vector (used for plotting). / Optionaler Datumsvektor
-#' @param frequency Time series frequency (e.g., `52` for weekly). Default is `52`. / Frequenz der Zeitreihe
-#' @param plot_acf Logical. Whether to compute and plot ACF/PACF. Default is `TRUE`. / ACF/PACF anzeigen?
-#' @param do_stl Logical. Whether to perform and plot STL decomposition. Default is `TRUE`. / STL-Dekomposition durchfuehren?
-#' @param max_lag_acf Max lag to use for ACF plots. Default is `min(3 * frequency, floor(length(rate_diff_vec) / 4))`. / Max. Verzoegerung fuer ACF
+#' @param frequency Time series frequency (e.g., 52 for weekly). Default is 52. / Frequenz der Zeitreihe
+#' @param plot_acf Logical. Whether to compute and plot ACF/PACF. Default is TRUE. / ACF/PACF anzeigen?
+#' @param do_stl Logical. Whether to perform and plot STL decomposition. Default is TRUE. / STL-Dekomposition durchfuehren?
+#' @param max_lag_acf Max lag to use for ACF plots. Default is min(3 * frequency, floor(length(rate_diff_vec) / 4)). / Max. Verzoegerung fuer ACF
 #'
 #' @return A list containing:
 #' \describe{
@@ -124,7 +124,7 @@ check_rate_diff_arima_ready <- function(
   }
 
   if (!is.numeric(rate_diff_vec) || any(!is.finite(rate_diff_vec[!is.na(rate_diff_vec)]))) {
-    stop("`rate_diff_vec` muss numerisch sein und darf keine Inf/-Inf-Werte enthalten.")
+    stop("rate_diff_vec muss numerisch sein und darf keine Inf/-Inf-Werte enthalten.")
   }
   valid_idx <- which(!is.na(rate_diff_vec) & is.finite(rate_diff_vec))
   if (length(valid_idx) < 10) {

@@ -22,7 +22,7 @@ compare_distribution_by_granularity(
 
 \item{save_plot}{Logical. Whether to save the plot as PNG. / Soll der Plot gespeichert werden?}
 
-\item{save_path}{Folder to save plot. Default is `"."`. / Speicherpfad fuer den Plot}
+\item{save_path}{Folder to save plot. Default is ".". / Speicherpfad fuer den Plot}
 }
 \value{
 A data frame with normality diagnostics for each granularity level.

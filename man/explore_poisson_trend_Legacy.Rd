@@ -25,8 +25,8 @@ explore_poisson_trend_Legacy(
 
 \item{group_col}{Optional. Name of grouping column for interaction. / Optional. Name der Gruppierungs-Spalte fuer Interaktion.}
 
-\item{family}{Specifies the GAM family: `"auto"` (default, chooses based on overdispersion), `"poisson"`, or `"negbin"`. /
-Gibt die GAM-Familie an: `"auto"` (Standard, Auswahl basierend auf Overdispersion), `"poisson"` oder `"negbin"`.}
+\item{family}{Specifies the GAM family: "auto" (default, chooses based on overdispersion), "poisson", or "negbin". /
+Gibt die GAM-Familie an: "auto" (Standard, Auswahl basierend auf Overdispersion), "poisson" oder "negbin".}
 
 \item{return_formula}{If TRUE, returns the model formula instead of fitting. / Wenn TRUE, wird die Modellformel zurueckgegeben.}
 

@@ -11,9 +11,9 @@
 #' @encoding UTF-8
 #'
 #' @param df A data frame with exactly two groups. / Ein Data Frame mit genau zwei Gruppen
-#' @param value_col Name of the column containing values to compare. Default is `".value"`. / Name der Werte-Spalte, Standard: `".value"`
-#' @param group_col Name of the grouping variable. Default is `"jahr"`. / Spaltenname der Gruppierungsvariable, Standard: `"jahr"`
-#' @param alpha Significance level for hypothesis testing. Default is `0.05`. / Signifikanzniveau fuer Testentscheidungen, Standard: `0.05`
+#' @param value_col Name of the column containing values to compare. Default is ".value". / Name der Werte-Spalte, Standard: ".value"
+#' @param group_col Name of the grouping variable. Default is "jahr". / Spaltenname der Gruppierungsvariable, Standard: "jahr"
+#' @param alpha Significance level for hypothesis testing. Default is 0.05. / Signifikanzniveau fuer Testentscheidungen, Standard: 0.05
 #' @param effect_size Logical. Whether to calculate Cohen's d. / Logisch, ob Cohen's d berechnet werden soll
 #' @param report_assumptions Logical. Whether to include normality test results. / Logisch, ob Shapiro-Test zurueckgegeben wird
 #' @param paired Logical. Whether the data are paired. / Logisch: gepaarte Daten?

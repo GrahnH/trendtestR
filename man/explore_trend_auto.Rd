@@ -40,7 +40,7 @@ Modellfamilie: "auto", "poisson", "negbin", "zip", "zinb", "gaussian" usw. Wird 
 }
 \value{
 Result from the appropriate trend analysis function. /
-Rueckgabe des Ergebnisses der ausgewaehlten Trendanalysefunktion (z.B. `explore_poisson_trend()`).
+Rueckgabe des Ergebnisses der ausgewaehlten Trendanalysefunktion (z.B. explore_poisson_trend()).
 }
 \description{
 Automatically selects and calls the appropriate trend analysis function depending on whether the data is count-based or continuous. /

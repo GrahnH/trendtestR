@@ -19,15 +19,15 @@ plot_weekly_cases(
 \arguments{
 \item{df}{A data.frame with date and value columns. / Ein Data Frame mit Datums- und Wertespalten}
 
-\item{datum_col}{Name of the date column, default is `"datum"`. / Name der Datumsspalte, Standard: `"datum"`}
+\item{datum_col}{Name of the date column, default is "datum". / Name der Datumsspalte, Standard: "datum"}
 
 \item{value_col}{Name of the value column. / Name der Wertespalte /}
 
 \item{weeks_back}{Number of recent weeks or a length-2 numeric vector. / Anzahl der zurueckliegenden Wochen oder ein Vektor mit zwei Werten}
 
-\item{agg_fun}{Aggregation function (e.g., `"sum"`, `"mean"`). / Aggregationsfunktion, z.B. `"sum"`, `"mean"`}
+\item{agg_fun}{Aggregation function (e.g., "sum", "mean"). / Aggregationsfunktion, z.B. "sum", "mean"}
 
-\item{plottype}{Optional plot type: `1` for all, `2` for hist+box, `3` for trend+box. / Optionaler Plottyp: `1` fuer alle, `2` fuer hist+box, `3` fuer trend+box}
+\item{plottype}{Optional plot type: 1 for all, 2 for hist+box, 3 for trend+box. / Optionaler Plottyp: 1 fuer alle, 2 fuer hist+box, 3 fuer trend+box}
 
 \item{save_plot}{Logical, whether to save the plots. / Logisch, ob die Plots gespeichert werden sollen}
 
