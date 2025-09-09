@@ -5,3 +5,5 @@
 ^Meta$
 ^\.github$
 ^cran-comments\.md$
+^vignettes/trendtestr-intro-CovidBerlin25\.Rmd$
+^vignettes/index\.csv$

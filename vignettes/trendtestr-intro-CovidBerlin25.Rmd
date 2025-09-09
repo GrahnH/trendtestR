@@ -1,0 +1,26 @@
+---
+title: "trendtestr-intro-CovidBerlin25"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{trendtestr-intro-CovidBerlin25}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+This vignette walks through a **recommended full workflow** in **`trendtestR`** using the open resource **`EuStockMarkets`** dataset.\
+Rather than demonstrating every function, it focuses on a **small, practical subset** that covers most day-to-day use cases with minimal manual tuning.
+
+## What you’ll do (automated path)
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(trendtestR)
+```
